@@ -135,6 +135,7 @@ The `DynamicNgrxModule` accepts a `config` object `<DynamicStoreConfig>` upon im
 ### DefaultDataService
 The default data service handles the effects for every entity, unless otherwise specified. As described in `EntityConfig`, you can extend the default data service to integrate with an external API to handle the actions.
 
+more readme to come ...
 
 
 ## Known Issues
