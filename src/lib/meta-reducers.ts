@@ -40,13 +40,18 @@ export function resetState(reducer: ActionReducer<any>): ActionReducer<any> {
 
 export function getMetaReducers(config?: DynamicStoreConfig) {
   const reducers: any[] = [
-    logger,
     resetState,
   ];
+
+  if (config.enableLogging) {
+    reducers.push(logger);
+  }
+
   if (config.enableOfflineSync) {
     const keys = getEntityKeys(config);
     const storeSync = storageSyncReducer([...keys, ...config.syncEntities]);
     reducers.push(storeSync);
   }
+
   return reducers;
 }

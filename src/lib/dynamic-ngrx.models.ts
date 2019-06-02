@@ -34,5 +34,8 @@ export interface DynamicStoreConfig {
    * Defaults to false. Set as true to enable syncing data offline
    */
   enableOfflineSync?: boolean;
+  /**
+   * Enable ngrx logging
+   */
   enableLogging?: boolean;
 }

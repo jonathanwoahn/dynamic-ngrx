@@ -1,6 +1,6 @@
 import { ActionFactory } from '../actions/action-factory';
 import { Observable, combineLatest, BehaviorSubject } from 'rxjs';
-import { map, withLatestFrom } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 import {
   selectAllEntities,
@@ -22,7 +22,6 @@ export class DynamicFacade<T> {
   entities$: BehaviorSubject<T[]> = new BehaviorSubject([]);
   ids$: Observable<string[]>;
   total$: Observable<number>;
-  // selectedEntity$: Observable<T>;
   selectedEntity$: BehaviorSubject<T> = new BehaviorSubject(undefined);
   selectedEntityId$: Observable<string>;
   loading$: Observable<boolean>;
@@ -51,10 +50,10 @@ export class DynamicFacade<T> {
     this.loaded$ = this.store.select(isLoaded<T>(entityConfig) as any) as any;
     this.loading$ = this.store.select(isLoading<T>(entityConfig) as any) as any;
 
-    this.selectedEntityId$
+    combineLatest(this.selectedEntityId$, this.objects$)
       .pipe(
-        withLatestFrom(this.objects$),
         map(([selectedId, entities]: [string, Dictionary<T>]) => (entities || {} as any)[selectedId]),
+        // distinctUntilChanged((x, y) => JSON.stringify(x) === JSON.stringify(y)),
       )
       .subscribe((entity: T) => this.selectedEntity$.next(entity));
   }
