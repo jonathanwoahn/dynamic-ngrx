@@ -43,7 +43,7 @@ export function getMetaReducers(config?: DynamicStoreConfig) {
     resetState,
   ];
 
-  if (config.enableLogging) {
+  if (config && config.enableLogging) {
     reducers.push(logger);
   }
 

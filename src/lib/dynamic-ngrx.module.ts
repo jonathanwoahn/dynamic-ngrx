@@ -15,14 +15,17 @@ import {
   EntityConfig,
 } from './dynamic-ngrx.models';
 import { getMetaReducers } from './meta-reducers';
-import { DYNAMIC_STORE_CONFIG } from './dynamic-ngrx.service';
+import { DYNAMIC_STORE_CONFIG, DYNAMIC_DATA_PROVIDER } from './dynamic-ngrx.service';
 
 export function filterEntities(config: DynamicStoreConfig): EntityConfig<any>[] {
   return config.entities;
 }
 
+const defaultConfig: DynamicStoreConfig = {
+  entities: [],
+  providers: [],
+};
 
-// @dynamic
 @NgModule({
   declarations: [
   ],
@@ -42,11 +45,15 @@ export function filterEntities(config: DynamicStoreConfig): EntityConfig<any>[] 
     DefaultDataService,
     DynamicEffectFactoryService,
     DynamicDataFactoryService,
+    {
+      provide: DYNAMIC_DATA_PROVIDER,
+      useValue: 'DYNAMIC_DATA_PROVIDER',
+      multi: true,
+    },
   ],
 })
 export class DynamicNgrxModule {
-  static forRoot(config?: DynamicStoreConfig): ModuleWithProviders {
-    const providers = config.providers ? config.providers : [];
+  static forRoot(config: DynamicStoreConfig = defaultConfig): ModuleWithProviders {
     return {
       ngModule: DynamicNgrxModule,
       providers: [
@@ -59,7 +66,7 @@ export class DynamicNgrxModule {
           deps: [DYNAMIC_STORE_CONFIG],
           useFactory: getMetaReducers,
         },
-        ...providers,
+        ...config.providers,
       ],
     };
   }
