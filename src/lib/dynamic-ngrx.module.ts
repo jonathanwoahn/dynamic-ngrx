@@ -1,8 +1,7 @@
 import { EffectsModule, EffectSources } from '@ngrx/effects';
-import { NgModule, Inject, InjectionToken, Injectable, Injector } from '@angular/core';
+import { NgModule, Inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { StoreModule, MetaReducer, ActionReducer, State, ReducerManager, META_REDUCERS } from '@ngrx/store';
-import { storeLogger } from 'ngrx-store-logger';
+import { StoreModule, ReducerManager, META_REDUCERS } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { ModuleWithProviders } from '@angular/compiler/src/core';
 import { ActionFactoryService } from './actions/action-factory.service';
@@ -15,34 +14,18 @@ import {
   DynamicStoreConfig,
   EntityConfig,
 } from './dynamic-ngrx.models';
-import { compact } from 'lodash';
 import { getMetaReducers } from './meta-reducers';
-import {
-  DYNAMIC_STORE_CONFIG,
-  DYNAMIC_DATA_PROVIDER,
-} from './dynamic-ngrx.service';
-
-export function getConfigProviders(config: DynamicStoreConfig): any[] {
-
-  const providers = config.entities
-    .filter((entityConfig: EntityConfig<any>) => !!entityConfig.dataService)
-    .map((entityConfig: EntityConfig<any>) => {
-      return {
-        provide: DYNAMIC_DATA_PROVIDER,
-        multi: true,
-        useClass: entityConfig.dataService,
-      };
-    });
-  const compactProviders = compact(providers);
-  return compactProviders;
-}
+import { DYNAMIC_STORE_CONFIG } from './dynamic-ngrx.service';
 
 export function filterEntities(config: DynamicStoreConfig): EntityConfig<any>[] {
   return config.entities;
 }
 
+
+// @dynamic
 @NgModule({
-  declarations: [],
+  declarations: [
+  ],
   imports: [
     CommonModule,
     StoreModule.forRoot({}),
@@ -63,6 +46,7 @@ export function filterEntities(config: DynamicStoreConfig): EntityConfig<any>[] 
 })
 export class DynamicNgrxModule {
   static forRoot(config?: DynamicStoreConfig): ModuleWithProviders {
+    const providers = config.providers ? config.providers : [];
     return {
       ngModule: DynamicNgrxModule,
       providers: [
@@ -75,8 +59,7 @@ export class DynamicNgrxModule {
           deps: [DYNAMIC_STORE_CONFIG],
           useFactory: getMetaReducers,
         },
-        // This works in ng serve, but not in build --prod
-        ...getConfigProviders(config),
+        ...providers,
       ],
     };
   }

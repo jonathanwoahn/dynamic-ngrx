@@ -1,3 +1,6 @@
+import { InjectionToken } from '@angular/core';
+import { DefaultDataService } from './services/default-data.service';
+
 export interface EntityConfig<T> {
   /**
    * Array of the entities you use in your application. They should be spelled
@@ -15,15 +18,15 @@ export interface EntityConfig<T> {
    */
   entityKey?: string;
   /**
-   * Data service associated with the entity. Reference the injectable service here.
-   * If no service is provided, the default service will be used, which just passes
-   * the entity through
-   */
-  dataService?: any;
-  /**
    * Persist to local storage. Defaults to true.
    */
   persist?: boolean;
+}
+
+interface AngularMultiProvider {
+  provide: InjectionToken<any>;
+  useClass: any;
+  multi: true;
 }
 
 export interface DynamicStoreConfig {
@@ -38,4 +41,5 @@ export interface DynamicStoreConfig {
    * Enable ngrx logging
    */
   enableLogging?: boolean;
+  providers?: AngularMultiProvider[];
 }
