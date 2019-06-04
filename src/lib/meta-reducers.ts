@@ -49,7 +49,8 @@ export function getMetaReducers(config?: DynamicStoreConfig) {
 
   if (config.enableOfflineSync) {
     const keys = getEntityKeys(config);
-    const storeSync = storageSyncReducer([...keys, ...config.syncEntities]);
+    const syncEntities = config.syncEntities || [];
+    const storeSync = storageSyncReducer([...keys, ...syncEntities]);
     reducers.push(storeSync);
   }
 
