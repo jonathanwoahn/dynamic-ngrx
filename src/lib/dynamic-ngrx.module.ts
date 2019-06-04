@@ -54,6 +54,7 @@ const defaultConfig: DynamicStoreConfig = {
 })
 export class DynamicNgrxModule {
   static forRoot(config: DynamicStoreConfig = defaultConfig): ModuleWithProviders {
+    // const providers = config.providers || [];
     return {
       ngModule: DynamicNgrxModule,
       providers: [
