@@ -18,7 +18,8 @@ export interface EntityConfig<T> {
    */
   entityKey?: string;
   /**
-   * Persist to local storage. Defaults to true.
+   * Persist to local storage. Defaults to true. If "enableOfflineSync" is not set to true,
+   * this will not work
    */
   persist?: boolean;
 }
@@ -41,5 +42,8 @@ export interface DynamicStoreConfig {
    * Enable ngrx logging
    */
   enableLogging?: boolean;
-  providers?: AngularMultiProvider[];
+  /**
+   * Even if no providers are defined, provide and empty array to prevent build errors
+   */
+  providers: AngularMultiProvider[];
 }
