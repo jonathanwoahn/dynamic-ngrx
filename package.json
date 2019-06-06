@@ -1,7 +1,7 @@
 {
-  "name": "ez-ngrx",
+  "name": "dynamic-ngrx",
   "author": "jonathanwoahn@gmail.com",
-  "version": "0.0.28",
+  "version": "0.0.29",
   "homepage": "https://github.com/jonathanwoahn/ez-ngrx",
   "peerDependencies": {
     "@angular/common": "^7.2.0",
