@@ -144,6 +144,5 @@ I have spent many hours trying to troubleshoot and resolve the error, so I would
 In the mean time, if you build your project with any other settings, it should work just fine.
 
 ## Roadmap
-- Fix `--prod` and `--aot` build errors
 - Convert offline mode to work with IndexedDB instead of Localstorage
 - Depending on popularity, testing

@@ -59,7 +59,7 @@ export class DefaultDataService<T> implements IDynamicDataService<T> {
     return of(entities);
   }
 
-  load(query: Object): Observable<T[]> {
+  load(query?: Object): Observable<T[]> {
     return of([]);
   }
 }

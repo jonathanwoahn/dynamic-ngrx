@@ -282,6 +282,13 @@ export function reducerWrapper<T>(entityConfig: EntityConfig<T>) {
           error: action.payload,
         };
 
+      case (getDynamicActionType(entity, DynamicActionTypes.load, DynamicActionResults.resolved)):
+        return {
+          ...state,
+          loading: false,
+          error: undefined,
+        };
+
         /**
        * Add in other reducer actions here
        */
